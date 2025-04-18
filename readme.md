@@ -11,7 +11,7 @@
 
 <div align="center">
   
-[中文](./readme.md) | [English](./readme_en.md) | [日本語](./readme_jp.md) | [한국어](./readme_kr.md)
+[中文](./readme.md) | [English](./assets/lang/readme_en.md) | [日本語](./assets/lang/readme_jp.md) | [한국어](./assets/lang/readme_kr.md)
 
 </div>
 
@@ -144,11 +144,11 @@ module_name/
 ```bash
 # STDIO模式 (适合与Claude Desktop直接集成)
 cd <module_name>
-python run.py
+uv run run.py
 
 # SSE模式 (作为HTTP服务运行)
 cd <module_name>
-python run.py --transport sse --host 127.0.0.1 --port 8000
+uv run run.py --transport sse --host 127.0.0.1 --port 8000
 ```
 
 ## 🐳 Docker 部署

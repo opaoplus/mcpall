@@ -11,30 +11,30 @@
 
 <div align="center">
   
-[中文](./readme.md) | [English](./readme_en.md) | [日本語](./readme_jp.md) | [한국어](./readme_kr.md)
+[中文](../../readme.md) | [English](./readme_en.md) | [日本語](./readme_jp.md) | [한국어](./readme_kr.md)
 
 </div>
 
 ## 📑 Project Overview
 
-MCPALL is a multi-functional service collection platform based on Model Context Protocol (MCP), supporting rapid development and integration of various MCP services. The platform is designed to be highly modular, making it easy to extend with new service modules.
+MCPALL is a multi-functional service collection platform based on the Model Context Protocol (MCP), supporting rapid development and integration of various MCP services. The platform is designed to be highly modular, allowing easy extension with new service modules.
 
 ## 🚀 Current Modules
 
 | Module Name | Description | Details Link |
 |-------------|-------------|--------------|
-| 📞 **useronlie** | User phone query service | [View Details](./useronlie/README.md) |
-| 📚 **xmol** | Literature retrieval and Q&A system | [View Details](./xmol/README.md) |
+| 📞 **useronlie** | User phone query service | [View Details](../../useronlie/README.md) |
+| 📚 **xmol** | Literature retrieval and Q&A system | [View Details](../../xmol/README.md) |
 
-## 🛠️ Tech Stack
+## 🛠️ Technology Stack
 
 - **Python 3.11+**: Core development language
 - **FastMCP**: MCP protocol implementation framework
-- **Communication Protocols**: Supports both HTTP/SSE and STDIO transport methods
+- **Communication Protocol**: Supports both HTTP/SSE and STDIO transport methods
 
 ## ⚙️ General Development Guide
 
-### Setting Up the Environment
+### Install Base Environment
 
 ```bash
 # Ensure Python 3.11+ is installed
@@ -57,7 +57,7 @@ module_name/
 │   ├── __init__.py
 │   ├── server.py       # MCP server implementation
 │   └── ...             # Other functional modules
-├── README.md           # Module detailed documentation
+├── README.md           # Detailed module documentation
 ├── run.py              # Startup script
 ├── pyproject.toml      # Project configuration
 └── ...                 # Other configuration files
@@ -65,14 +65,14 @@ module_name/
 
 ### Steps to Develop a New Module
 
-1. **Create Module Directory Structure**
+1. **Create module directory structure**
    ```bash
    mkdir -p new_module/core
    touch new_module/{README.md,run.py,pyproject.toml}
    touch new_module/core/{__init__.py,server.py}
    ```
 
-2. **Implement MCP Server**
+2. **Implement MCP server**
    ```python
    # new_module/core/server.py (basic framework)
    from fastmcp import McpServer, Tool, Resource
@@ -81,7 +81,7 @@ module_name/
        def __init__(self):
            super().__init__("New Module Name")
            # Register tools and resources
-           self.register_tool(Tool("Tool Name", self.tool_handler))
+           self.register_tool(Tool("tool_name", self.tool_handler))
            self.register_resource("resource://path", self.resource_handler)
    
        async def tool_handler(self, params):
@@ -93,7 +93,7 @@ module_name/
            return {"data": "Resource content"}
    ```
 
-3. **Create Startup Script**
+3. **Create startup script**
    ```python
    # new_module/run.py
    import asyncio
@@ -118,7 +118,7 @@ module_name/
        main()
    ```
 
-4. **Configure Project Dependencies**
+4. **Configure project dependencies**
    ```toml
    # new_module/pyproject.toml
    [build-system]
@@ -134,22 +134,41 @@ module_name/
    ]
    ```
 
-5. **Write Module README**
-   Each module should have its own independent README file, detailing its functionality, configuration, and usage instructions.
+5. **Write module README**
+   Each module should have its own README file, detailing the module's functionality, configuration, and usage instructions.
 
-## 🚀 Universal Running Method
+## 🚀 General Running Method
 
 All modules support two running modes:
 
 ```bash
 # STDIO mode (suitable for direct integration with Claude Desktop)
 cd <module_name>
-python run.py
+uv run run.py
 
-# SSE mode (running as an HTTP service)
+# SSE mode (runs as an HTTP service)
 cd <module_name>
-python run.py --transport sse --host 127.0.0.1 --port 8000
+uv run run.py --transport sse --host 127.0.0.1 --port 8000
 ```
+
+## 🐳 Docker Deployment
+
+The project supports deployment and running using Docker, facilitating quick deployment and isolated operation in different environments.
+
+### Using Docker Compose (Recommended)
+
+```bash
+# Build all services
+docker-compose build
+
+# Start a specific service (e.g., useronlie module in SSE mode)
+docker-compose up useronlie-sse
+
+# Run service in background
+docker-compose up -d useronlie-sse
+```
+
+For detailed Docker deployment instructions, please refer to the [Docker Deployment Guide](../../docker-usage.md).
 
 ## 🏗️ Integration with Claude
 
@@ -158,10 +177,10 @@ python run.py --transport sse --host 127.0.0.1 --port 8000
 ```json
 {
   "mcpServers": {
-    "<Service Name>": {
+    "<service_name>": {
       "isActive": true,
-      "name": "<Display Name>",
-      "url": "http://localhost:<Port>/sse"
+      "name": "<display_name>",
+      "url": "http://localhost:<port>/sse"
     }
   }
 }
@@ -169,27 +188,27 @@ python run.py --transport sse --host 127.0.0.1 --port 8000
 
 2. Restart Claude Desktop application to apply the configuration
 
-## 🔧 Extensible Ecosystem
+## 🔧 Extension Ecosystem
 
-MCPALL is designed as an infinitely extensible service ecosystem. Here are some potential expansion directions:
+MCPALL is designed as an infinitely expandable service ecosystem. Here are some potential extension directions:
 
 - **Data Processing Services**: Data analysis, visualization, report generation
-- **AI Assistant Tools**: Text generation, image processing, speech recognition
+- **AI Assistance Tools**: Text generation, image processing, speech recognition
 - **Development Toolchain**: Code generation, project management, test automation
 - **Knowledge Base Services**: Document retrieval, knowledge graphs, Q&A systems
 - **Operations Monitoring**: System status, performance monitoring, log analysis
 
-Adding your service to the MCPALL platform only requires following the development standards above, then adding the module directory to the project root.
+To add your service to the MCPALL platform, simply follow the development standards above and add the module directory to the project root.
 
-## 📋 MCP Service Development Core Concepts
+## 📋 Core Concepts of MCP Service Development
 
 ### Tools
 
-Tools are callable functions provided by MCP services for performing specific tasks.
+Tools are callable functions provided by the MCP service for performing specific tasks.
 
 ```python
 # Tool definition example
-@server.tool("Tool Name")
+@server.tool("tool_name")
 async def tool_handler(params):
     # Parameter processing and business logic
     return {"result": "Processing result"}
@@ -197,7 +216,7 @@ async def tool_handler(params):
 
 ### Resources
 
-Resources are data access points provided by MCP services, identified by URI.
+Resources are data access points provided by the MCP service, identified by URI.
 
 ```python
 # Resource definition example
@@ -209,7 +228,7 @@ async def resource_handler(params):
 
 ### Resource Schema
 
-Through schema definitions, you can declare the structure and validation rules for resources.
+Through schema definitions, you can declare the structure and validation rules of resources.
 
 ```python
 # Resource schema example
@@ -237,7 +256,7 @@ MIT
 4. Push the branch (`git push origin feature/amazing-feature`)
 5. Create a Pull Request
 
-## 📮 Contact
+## 📮 Contact Information
 
 - Project Maintainer: [Your Name](mailto:your-email@example.com)
 - Project Repository: [GitHub](https://github.com/your-username/mcpall) 

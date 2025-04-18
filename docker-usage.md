@@ -92,14 +92,14 @@ new-module-stdio:
 
 ## 使用 uv 运行 Python 
 
-容器内部使用 `python -m uv run` 命令来运行 Python 脚本，这样可以利用 uv 的性能优势。如果您想切换回普通的 Python 运行方式，可以修改 Dockerfile 中的最后一行：
+容器内部使用 `python -m uv run` 命令来运行 Python 脚本，这样可以利用 uv 的性能优势。这与项目标准的运行方式一致，默认使用 uv 运行模块。
 
 ```dockerfile
-# 使用普通 Python 运行
-CMD cd /app/${MODULE} && python run.py --transport ${TRANSPORT} --host ${HOST} --port ${PORT}
-
-# 或者使用 uv 运行
+# 使用 uv 运行 (默认)
 CMD cd /app/${MODULE} && python -m uv run run.py --transport ${TRANSPORT} --host ${HOST} --port ${PORT}
+
+# 如果需要使用普通 Python 运行
+# CMD cd /app/${MODULE} && python run.py --transport ${TRANSPORT} --host ${HOST} --port ${PORT}
 ```
 
 ## 环境变量
