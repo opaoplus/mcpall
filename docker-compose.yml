@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  # useronlie 模块 - SSE 模式
+  useronlie-sse:
+    build:
+      context: .
+    environment:
+      - MODULE=useronlie
+      - TRANSPORT=sse
+      - HOST=0.0.0.0
+      - PORT=8000
+    ports:
+      - "8000:8000"
+
+  # useronlie 模块 - STDIO 模式
+  useronlie-stdio:
+    build:
+      context: .
+    environment:
+      - MODULE=useronlie
+      - TRANSPORT=stdio
+    stdin_open: true
+    tty: true
+
+  # xmol 模块 - SSE 模式
+  xmol-sse:
+    build:
+      context: .
+    environment:
+      - MODULE=xmol
+      - TRANSPORT=sse
+      - HOST=0.0.0.0
+      - PORT=8001
+    ports:
+      - "8001:8001"
+
+  # xmol 模块 - STDIO 模式
+  xmol-stdio:
+    build:
+      context: .
+    environment:
+      - MODULE=xmol
+      - TRANSPORT=stdio
+    stdin_open: true
+    tty: true 

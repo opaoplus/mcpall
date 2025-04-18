@@ -151,6 +151,25 @@ cd <module_name>
 python run.py --transport sse --host 127.0.0.1 --port 8000
 ```
 
+## 🐳 Docker 部署
+
+项目支持使用 Docker 进行部署和运行，方便在不同环境中快速部署和隔离运行。
+
+### 使用 Docker Compose（推荐）
+
+```bash
+# 构建所有服务
+docker-compose build
+
+# 启动特定服务（例如 useronlie 模块的 SSE 模式）
+docker-compose up useronlie-sse
+
+# 后台运行服务
+docker-compose up -d useronlie-sse
+```
+
+详细的 Docker 部署说明请参考 [Docker 部署指南](./docker-usage.md)。
+
 ## 🏗️ 集成到Claude
 
 1. 配置Claude Desktop（`%AppData%\Claude\claude_desktop_config.json`）：
@@ -224,8 +243,6 @@ resource_schema = {
 ```
 
 更多开发详情，请参考[MCP开发文档](https://github.com/anthropics/anthropic-cookbook/tree/main/mcp)。
-
-
 
 ## 📄 许可证
 
