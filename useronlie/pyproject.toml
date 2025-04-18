@@ -1,0 +1,9 @@
+[project]
+name = "useronline"
+version = "0.1.0"
+description = "基于MCP的用户电话查询服务"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "mcp[cli]>=1.6.0",
+]
