@@ -31,6 +31,7 @@ cookie = os.getenv('Cookie', "")
 impact = os.getenv('Impact', "8")
 lang = os.getenv('lang', "zh")
 
+
 # 检查必要的配置
 if not cookie:
     logger.error("错误：请在.env文件中设置Cookie")
@@ -39,11 +40,34 @@ if not cookie:
 # 初始化文献获取工具
 content_tool = get_content()
 
-# 创建MCP服务器
-mcp = FastMCP("文献检索助手")
+# 创建MCP服务器 - 从环境变量获取配置
+mcp = FastMCP(
+    "文献检索助手", 
+    host=os.getenv("FASTMCP_host", "0.0.0.0"),
+    port=int(os.getenv("FASTMCP_port", "8000")),
+    sse_path=os.getenv("FASTMCP_sse_path", "/sse"),
+    debug=os.getenv("FASTMCP_debug", "").lower() == "true",
+    log_level=os.getenv("FASTMCP_log_level", "INFO")
+)
 
 # 文献缓存
 literature_cache = {}
+
+
+# 定义自定义运行方法
+def run(transport="stdio"):
+    """运行MCP服务器，使用指定的传输协议"""
+
+    if transport == "sse":
+        logger.info(f"运行SSE服务器，监听地址: {mcp.settings.host}:{mcp.settings.port}")
+        logger.info(f"SSE路径: {mcp.settings.sse_path}")
+        logger.info(f"消息路径: {mcp.settings.message_path}")
+    else:
+        logger.info("运行STDIO服务器")
+    
+    # 直接调用mcp的run方法
+    mcp.run(transport=transport)
+
 
 @mcp.prompt()
 def system_prompt() -> str:

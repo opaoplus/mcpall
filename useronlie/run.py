@@ -11,11 +11,18 @@ def main():
     parser.add_argument("--port", type=int, default=8000, help="服务器端口号")
     parser.add_argument("--host", type=str, default="0.0.0.0", help="服务器主机地址")
     parser.add_argument(
+        "--ssepath",
+        type=str,
+        default="/sse",
+        help="SSE路径"
+    )
+    parser.add_argument(
         "--transport", 
         choices=["stdio", "sse"], 
         default="sse",
         help="传输协议: stdio(标准IO)或sse(服务器发送事件)"
     )
+
     args = parser.parse_args()
     
     # 输出可用功能
@@ -25,8 +32,10 @@ def main():
     
     # 设置环境变量以配置SSE服务器
     if args.transport == "sse":
-        os.environ["FASTMCP_HOST"] = args.host
-        os.environ["FASTMCP_PORT"] = str(args.port)
+        # 直接配置mcp服务器参数
+        mcp.settings.host = args.host
+        mcp.settings.port = args.port
+        mcp.settings.sse_path = args.ssepath
         print(f"使用SSE模式启动服务器，地址: {args.host}:{args.port}")
     else:
         print("使用STDIO模式启动服务器")
